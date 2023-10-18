@@ -1,0 +1,9 @@
+access through pid
+ask what sector or sectors of memory to search through 
+create the iovec array depending on the chosen options and searching through the maps file to get addresses
+ask what value to search for
+read block of memory
+search through block of memory and get address
+write block of memory back
+access through executable name
+memory sector viewer
