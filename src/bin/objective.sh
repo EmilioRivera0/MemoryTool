@@ -1,2 +1,2 @@
 #! /bin/bash
-gcc -o ./ObjectiveProcess ./objective.c
+gcc -o ./ObjectiveProcess ./../objective.c

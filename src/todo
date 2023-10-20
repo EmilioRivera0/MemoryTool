@@ -1,9 +1,15 @@
 access through pid
+close maps file
 ask what sector or sectors of memory to search through 
 create the iovec array depending on the chosen options and searching through the maps file to get addresses
 ask what value to search for
 read block of memory
 search through block of memory and get address
 write block of memory back
-access through executable name
+remember user to run program as root
+verbose mode
+
+*
+comment on MAPS_LINE_BUFFER size since it could not contain larger lines
 memory sector viewer
+access through executable name
