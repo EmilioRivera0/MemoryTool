@@ -16,6 +16,8 @@
 // functions declaration -------->
 FILE* open_maps_file(pid_t);
 bool is_writable(char*);
-void get_memory_addresses(struct Parameters*);
+struct Memory_Sector* initialize_memory_sector_struct(char*);
+void push_mem_sec(struct Memory_Sector*, struct Program_Data*);
+void get_memory_addresses(struct Program_Data*);
 
 #endif // !MAPS_FILE_INTERFACE_H

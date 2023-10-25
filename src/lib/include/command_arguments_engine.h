@@ -11,6 +11,6 @@
 #include "structs.h"
 
 // functions declaration -------->
-void arguments_engine(const int, char**, struct Parameters*);
+void arguments_engine(const int, char**, struct Program_Data*);
 
 #endif // !COMMAND_ARGUMENTS_ENGINE_H

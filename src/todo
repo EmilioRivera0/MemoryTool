@@ -1,10 +1,7 @@
-access through pid
-close maps file
-ask what sector or sectors of memory to search through 
-create the iovec array depending on the chosen options and searching through the maps file to get addresses
-ask what value to search for
-read block of memory
-search through block of memory and get address
+create the iovec array depending on the chosen option
+read block of memory and save its content into the a buffer
+ask what value and type to search for
+search through block of memory and get address, find if using bitwise operators can simplify the search
 write block of memory back
 remember user to run program as root
 verbose mode
@@ -13,3 +10,4 @@ verbose mode
 comment on MAPS_LINE_BUFFER size since it could not contain larger lines
 memory sector viewer
 access through executable name
+execute program on a different buffer from the terminal one. And clear the previous printed content.

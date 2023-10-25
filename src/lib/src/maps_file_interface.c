@@ -22,27 +22,100 @@ FILE* open_maps_file(pid_t pid){
 }
 
 bool is_writable(char* line_buffer){
-  return true;
+  // get second token which stores the memory sector mode
+  char* token = strtok(line_buffer," ");
+  token = strtok(NULL, " ");
+  // remove '\n' character from previous token
+  *(token-1) = ' ';
+  // remove '\n' character from current token
+  *(token+4) = ' ';
+  // check if the 'w' flag is set, meaning it is a writable memory sector
+  if (*(token+1) == 'w')
+    return true;
+  return false;
 }
 
-void get_memory_addresses(struct Parameters* params){
+struct Memory_Sector* initialize_memory_sector_struct(char* line_buffer){
+  long int start = 0, end = 0;
+  size_t name_len = 0;
+  // get starting memory sector address
+  char* token = strtok(line_buffer, "-");
+  char* name = NULL;
+  struct Memory_Sector* mem_sec = malloc(sizeof(struct Memory_Sector));
+
+  // initialize starting memory address
+  sscanf(token, "%p", &mem_sec->start);
+  sscanf(token, "%lx", &start);
+  // get ending memory sector address
+  token = strtok(NULL, " ");
+  // initialize ending memory address
+  sscanf(token, "%p", &mem_sec->end);
+  sscanf(token, "%lx", &end);
+  // initialize memory sector size
+  mem_sec->size = end - start;
+  // jump until last token to initialize memory sector name
+  strtok(NULL, " ");
+  strtok(NULL, " ");
+  strtok(NULL, " ");
+  strtok(NULL, " ");
+  token = strtok(NULL, " ");
+  // initialize memory sector name
+  name_len = strlen(token);
+  if (name_len > 1){
+    name_len--;
+    // remove '\n' character at the end of the token
+    *(token+name_len) = '\0';
+    mem_sec->name = malloc(name_len);
+    memcpy(mem_sec->name, token, name_len);
+  }
+  // no name
+  else{
+    name_len = strlen("<No Name>");
+    mem_sec->name = malloc(name_len);
+    mem_sec->name = "<No Name>\0";
+  }
+  mem_sec->next = NULL; 
+
+  return mem_sec;
+}
+
+void push_mem_sec(struct Memory_Sector* ms, struct Program_Data* pd){
+  struct Memory_Sector* front = NULL;
+  struct Memory_Sector* back = NULL;
+
+  if (pd->memory_sectors == NULL)
+    pd->memory_sectors = ms;
+  else{
+    front = pd->memory_sectors;
+    while (front != NULL) {
+      back = front;
+      front = front->next;
+    }
+    back->next = ms;
+  }
+}
+
+void get_memory_addresses(struct Program_Data* pd){
   // maps file content format
   //<address start>-<address end>  <mode>  <offset>   <major id:minor id>   <inode id>   <file path>  
   //559b8c418000-559b8c41a000      r--p    00000000          08:30               1708     /usr/bin/cat
   char line_maps[MAPS_LINE_BUFFER];
+  char* token = NULL;
   FILE* file_maps = NULL;
   
+  // initialize memory sectors to NULL
+  pd->memory_sectors = NULL;
+
   // open maps file
-  file_maps = open_maps_file(params->pid);
+  file_maps = open_maps_file(pd->pid);
 
   // iterate through maps file searching for writable memory sections
-  while (!feof(file_maps)) {
+  while (fgets(line_maps, MAPS_LINE_BUFFER, file_maps) != NULL) {
+    if (is_writable(line_maps)) {
+      push_mem_sec(initialize_memory_sector_struct(line_maps), pd);
+    }
     // clear line buffer content
     memset(line_maps, '\0', MAPS_LINE_BUFFER);
-    fgets(line_maps, MAPS_LINE_BUFFER, file_maps);
-    printf("%s", line_maps);
   }
-  // temporal structure to store all lines containing writable sections of code information
-  // change Parameters struct to ProgramData struct
-  // then make user pick at least one section and store the addresses of the selected sections into the metadata struct
+  fclose(file_maps);
 }

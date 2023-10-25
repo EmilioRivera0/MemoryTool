@@ -16,7 +16,7 @@ bool is_integer(char* str){
 }
 
 // functions definition -------->
-void arguments_engine(const int argc, char**argv, struct Parameters*params){
+void arguments_engine(const int argc, char** argv, struct Program_Data* params){
   // skip program command
   argv++;
   // no arguments specified
@@ -26,7 +26,6 @@ void arguments_engine(const int argc, char**argv, struct Parameters*params){
   }
   // only one argument specified
   else if (argc == 2) {
-    printf("\nargc == 2\n");
     // check if it is an integer and save it as the target pid params struct 
     if (is_integer(*argv)){
       params->a_pid = true;
@@ -39,7 +38,6 @@ void arguments_engine(const int argc, char**argv, struct Parameters*params){
   }
   // multiple arguments specified
   else{
-    printf("\nargc > 2\n");
     // iterate through parameters
     for (short int it = 1; it<argc; it++) {
       // will only accept arguments that start with a '-' preceded by a character
