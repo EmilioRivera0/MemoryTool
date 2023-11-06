@@ -1,13 +1,20 @@
-create the iovec array depending on the chosen option
-read block of memory and save its content into the a buffer
-ask what value and type to search for
+ask what value to search for
+check what type of value the user indicated
+create a local structure for memory_tool to store the value and its respective boolean variable to indicate the value type
+initialize with empty and false values the local struct to store the identified value
+
+check how to correctly iterate through the local buffer without reading any external address from the buffer (prevent operations on foreign addresses)
 search through block of memory and get address, find if using bitwise operators can simplify the search
 write block of memory back
 remember user to run program as root
 verbose mode
+ask user if he wants to choose the data type or let the program infer it
+improve user input verification
+modify code so only the modified bytes are written back into the remote process memory space
 
 *
 comment on MAPS_LINE_BUFFER size since it could not contain larger lines
 memory sector viewer
 access through executable name
 execute program on a different buffer from the terminal one. And clear the previous printed content.
+check if there is a way to optimize the search through the local buffer
