@@ -1,5 +1,6 @@
 // necessary libraries -------->
 #include "../include/memory_tool.h"
+#include <string.h>
 
 // functions definition -------->
 short int memory_menu(struct Program_Data* pd){
@@ -17,7 +18,6 @@ short int memory_menu(struct Program_Data* pd){
   scanf(" %hd", &op);
   return op;
 }
-
 
 bool is_whole_number(char* str){
   while (*str != '\0') {
@@ -37,13 +37,31 @@ bool is_decimal_number(char* str){
   return true;
 }
 
-short int str_len(char* str){
-  short int len = 0;
-  while (*str != '\0') {
-    len++;
-    str++;
+char determine_type(char* str){
+  if (is_whole_number(str)) {
+    printf("\n%s is a Whole Number\n", str);
+    return 'w';
   }
-  return len;
+  else if (is_decimal_number(str)) {
+    printf("\n%s is a Decimal Number\n", str);
+    return 'd';
+  }
+  else{
+    // one character
+    if (strlen(str) == 1) {
+      printf("%c is a Character\n", str[0]);
+      return 'c';
+    }
+    // string
+    else{
+      printf("%s is a String\n", str);
+      return 's';
+    }
+  }
+  return '\0';
+}
+
+void search_w_n(char* str_value){
 }
 
 struct iovec* initialize_remote_iovec(struct Program_Data* pd, const short int op){
@@ -86,16 +104,32 @@ void memory_IO(struct Program_Data* pd){
     transfered_bytes = process_vm_readv(pd->pid, local_mem_sec, 1, remote_mem_sec, 1, 0);
     // check if bytes were transfered
     if (transfered_bytes <= 0) {
-      printf("Program failed to read process %d memory: %s\n\n", pd->pid, strerror(errno));
+      printf("\nProgram failed to read process %d memory: %s\n\n", pd->pid, strerror(errno));
       PROGRAM_ERROR
     }
-    printf("\nRemote Process Memory Copied Successfully Into Program's Buffer\n\n");
+    printf("\n%ld out of %ld Bytes Copied From Remote Process Memory Into Program's Buffer Successfully\n\n", transfered_bytes, remote_mem_sec->iov_len);
+
     // clean usr_input array content
     memset(usr_input, '\0', MAX_USER_INPUT_LEN);
     // ask for user to input the value to search for in the buffer
-    printf("Indicate the value to search for (Rational Numbers/Character/String):\n\n\nValue > ");
+    printf("Indicate the value to search for (Rational Numbers/Character/String):\n\nValue > ");
     scanf(" %s", usr_input);
-    printf("%s", usr_input);
+    // determine the data type of usr_input
+    switch (determine_type(usr_input)) {
+      // whole number
+      case 'w':
+        search_w_n(usr_input);
+        break;
+      // decimal number
+      case 'd':
+        break;
+      // character
+      case 'c':
+        break;
+      // string
+      case 's':
+        break;
+    }
 
     // free allocated memory from heap
     free(remote_mem_sec);

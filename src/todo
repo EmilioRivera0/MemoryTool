@@ -1,5 +1,3 @@
-ask what value to search for
-check what type of value the user indicated
 create a local structure for memory_tool to store the value and its respective boolean variable to indicate the value type
 initialize with empty and false values the local struct to store the identified value
 

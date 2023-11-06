@@ -22,7 +22,8 @@ struct iovec* initialize_remote_iovec(struct Program_Data*, const short int);
 void memory_IO(struct Program_Data*);
 bool is_whole_number(char*);
 bool is_decimal_number(char*);
-short int str_len(char*);
+char determine_type(char*);
+void search_w_n(char*);
 
 /* 
  * function declaration copied from <bits/uio-ext.h>
