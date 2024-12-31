@@ -1,6 +1,5 @@
 // necessary libraries -------->
 #include "../include/memory_tool.h"
-#include <string.h>
 
 // functions definition -------->
 short int memory_menu(struct Program_Data* pd){
@@ -62,6 +61,31 @@ char determine_type(char* str){
 }
 
 void search_w_n(char* str_value){
+  /* gcc x86_64 Linux
+   * ----------------------------------------------------
+   * |                   Type                     |Bytes|
+   * ----------------------------------------------------
+   * | short                                      |  2  |
+   * ----------------------------------------------------
+   * | unsigned short                             |  2  |
+   * ----------------------------------------------------
+   * | int                                        |  4  |
+   * ----------------------------------------------------
+   * | unsigned int                               |  4  |
+   * ----------------------------------------------------
+   * | long int / long long int                   |  8  |
+   * ----------------------------------------------------
+   * | unsigned long int / unsigned long long int |  8  |
+   * ----------------------------------------------------
+   */
+  // function variables
+  short si = 0;
+  unsigned short usi = 0;
+  int i = 0;
+  unsigned int ui = 0;
+  long int li = 0;
+  unsigned long int uli = 0;
+  printf("%ld", sizeof(long long int));
 }
 
 struct iovec* initialize_remote_iovec(struct Program_Data* pd, const short int op){

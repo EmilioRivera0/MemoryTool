@@ -19,6 +19,11 @@ bool is_integer(char* str){
 void arguments_engine(const int argc, char** argv, struct Program_Data* params){
   // skip program command
   argv++;
+  // check if program is executed as root
+  if (getuid() != 0) {
+    printf("\nRun program as root.\n\n");
+    PROGRAM_ERROR
+  }
   // no arguments specified
   if (argc == 1){
     printf("\nIndicate PID.\n\n");

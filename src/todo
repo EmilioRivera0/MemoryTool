@@ -1,8 +1,8 @@
-create a local structure for memory_tool to store the value and its respective boolean variable to indicate the value type
-initialize with empty and false values the local struct to store the identified value
-
+change integer types to intN_t for exact sizes
 check how to correctly iterate through the local buffer without reading any external address from the buffer (prevent operations on foreign addresses)
-search through block of memory and get address, find if using bitwise operators can simplify the search
+search through block of memory and get address
+take in count long, unsigned
+if necessary use limits.h and specify C version to compile the program with
 write block of memory back
 remember user to run program as root
 verbose mode
